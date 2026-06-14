@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>✈ GDN ↔ Marsa Alam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #090e1a;
+      --card:       #0d1525;
+      --border:     #1a2640;
+      --amber:      #f4a335;
+      --green:      #22d47e;
+      --green-bg:   rgba(34, 212, 126, 0.07);
+      --green-ring: rgba(34, 212, 126, 0.3);
+      --red:        #f87171;
+      --text:       #dde5f0;
+      --muted:      #4e6280;
+      --sans:       'Space Grotesk', system-ui, sans-serif;
+      --mono:       'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 2.5rem 1.25rem 3rem;
+    }
+
+    /* ── Header ───────────────────────────────── */
+    header {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto 2.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    h1 .arrow { color: var(--amber); }
+
+    .subtitle {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Cards ────────────────────────────────── */
+    .cards {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    @media (max-width: 580px) {
+      .cards { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: border-color .4s, box-shadow .4s;
+    }
+
+    .card.is-alert {
+      border-color: var(--green-ring);
+      box-shadow: 0 0 32px -6px var(--green-ring);
+    }
+
+    /* ── Route label ──────────────────────────── */
+    .route-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .route-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Price ────────────────────────────────── */
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+    }
+
+    .price {
+      font-family: var(--mono);
+      font-size: 3.25rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      transition: color .4s;
+    }
+
+    .price.is-alert { color: var(--green); }
+
+    .price-label {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ── Status badge ─────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .badge-watching {
+      background: rgba(78, 98, 128, 0.15);
+      color: var(--muted);
+      border: 1px solid rgba(78, 98, 128, 0.25);
+    }
+
+    .badge-alert {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-ring);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .badge-alert .badge-dot {
+      animation: blink 1.6s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+
+    /* ── Divider ──────────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Alert flight rows ────────────────────── */
+    .alert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .alert-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0.8rem;
+      border-radius: 9px;
+      background: var(--green-bg);
+      border: 1px solid rgba(34, 212, 126, 0.18);
+    }
+
+    .alert-date {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .alert-price {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--green);
+      margin-top: 0.1rem;
+    }
+
+    .book-btn {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--amber);
+      text-decoration: none;
+      border: 1px solid rgba(244, 163, 53, 0.35);
+      padding: 0.28rem 0.65rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: background .15s;
+    }
+
+    .book-btn:hover { background: rgba(244, 163, 53, 0.1); }
+
+    /* ── Cheapest note ────────────────────────── */
+    .cheapest-note {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── View all link ────────────────────────── */
+    .view-all {
+      margin-top: auto;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--amber);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      opacity: 0.8;
+      transition: opacity .15s;
+    }
+
+    .view-all:hover { opacity: 1; text-decoration: underline; }
+
+    /* ── Loading / error ──────────────────────── */
+    .state-msg {
+      grid-column: 1 / -1;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding: 2rem 0;
+    }
+
+    .state-error {
+      grid-column: 1 / -1;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--red);
+      background: rgba(248, 113, 113, 0.08);
+      border: 1px solid rgba(248, 113, 113, 0.2);
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      line-height: 1.6;
+    }
+
+    /* ── Footer ───────────────────────────────── */
+    footer {
+      max-width: 860px;
+      width: 100%;
+      margin: 2rem auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    #last-checked {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .footer-link {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .15s;
+    }
+
+    .footer-link:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <h1>✈ GDN <span class="arrow">↔</span> Marsa Alam</h1>
+      <span class="subtitle">alert when ≤ 500 zł · one way · 1 person</span>
+    </div>
+  </header>
+
+  <div class="cards" id="cards">
+    <p class="state-msg">Loading…</p>
+  </div>
+
+  <footer>
+    <span id="last-checked">—</span>
+    <a class="footer-link" href="https://r.pl/bilety-czarterowe" target="_blank">r.pl ↗</a>
+  </footer>
+
+  <script>
+    /* ── Helpers ─────────────────────────────── */
+
+    function fmtDate(iso) {
+      if (!iso) return '—';
+      const [y, m, d] = iso.split('-').map(Number);
+      return new Date(y, m - 1, d).toLocaleDateString('pl-PL', {
+        day: 'numeric', month: 'short', year: 'numeric'
+      });
+    }
+
+    function fmtDateTime(iso) {
+      if (!iso) return 'never';
+      return new Date(iso).toLocaleString('pl-PL', {
+        day: 'numeric', month: 'short',
+        hour: '2-digit', minute: '2-digit',
+        timeZone: 'Europe/Warsaw'
+      });
+    }
+
+    /* ── Card builder ─────────────────────────── */
+
+    function buildCard(route) {
+      const hasAlerts  = route.alerts && route.alerts.length > 0;
+      const price      = route.cheapest_price;
+      const priceStr   = price != null
+        ? price.toLocaleString('pl-PL')
+        : '—';
+
+      // Alert flight rows
+      const alertRows = hasAlerts
+        ? `<div class="alert-list">
+            ${route.alerts.map(f => `
+              <div class="alert-row">
+                <div>
+                  <div class="alert-date">${fmtDate(f.date)}</div>
+                  <div class="alert-price">${f.price.toLocaleString('pl-PL')} zł</div>
+                </div>
+                <a class="book-btn" href="${route.url}" target="_blank" rel="noopener">
+                  Book ↗
+                </a>
+              </div>`).join('')}
+          </div>`
+        : (route.cheapest_date
+            ? `<p class="cheapest-note">Cheapest: ${fmtDate(route.cheapest_date)}</p>`
+            : '');
+
+      return `
+        <div class="card ${hasAlerts ? 'is-alert' : ''}">
+
+          <div>
+            <div class="route-eyebrow">one-way · 1 person</div>
+            <div class="route-name">${route.name}</div>
+          </div>
+
+          <div class="price-row">
+            <span class="price ${hasAlerts ? 'is-alert' : ''}">${priceStr}</span>
+            <span class="price-label">zł/os.</span>
+          </div>
+
+          <span class="badge ${hasAlerts ? 'badge-alert' : 'badge-watching'}">
+            <span class="badge-dot"></span>
+            ${hasAlerts
+              ? `ALERT — ${route.alerts.length} flight${route.alerts.length > 1 ? 's' : ''}`
+              : 'watching'}
+          </span>
+
+          <hr class="divider">
+
+          ${alertRows}
+
+          <a class="view-all" href="${route.url}" target="_blank" rel="noopener">
+            All flights on r.pl ↗
+          </a>
+
+        </div>`;
+    }
+
+    /* ── Fetch & render ───────────────────────── */
+
+    async function load() {
+      const cards = document.getElementById('cards');
+      try {
+        const res  = await fetch('data.json?t=' + Date.now());
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        if (!data.routes || !data.routes.length) {
+          cards.innerHTML = '<p class="state-msg">No route data yet.</p>';
+          return;
+        }
+
+        cards.innerHTML = data.routes.map(buildCard).join('');
+
+        document.getElementById('last-checked').textContent =
+          'Last checked: ' + fmtDateTime(data.last_checked) +
+          ' · updates every 2 h';
+
+      } catch (err) {
+        cards.innerHTML = `
+          <div class="state-error">
+            <strong>Could not load data.json</strong> — ${err.message}<br>
+            The GitHub Action may not have run yet. Go to the <strong>Actions</strong> tab
+            and trigger <em>Check Flight Prices</em> manually.
+          </div>`;
+      }
+    }
+
+    load();
+  </script>
+</body>
+</html>
