@@ -2,7 +2,7 @@ name: Check Flight Prices
 
 on:
   schedule:
-    - cron: '0 */2 * * *'
+    - cron: '*/30 * * * *'   # co 30 minut
   workflow_dispatch:
 
 permissions:
