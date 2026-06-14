@@ -34,7 +34,6 @@
       padding: 2.5rem 1.25rem 3rem;
     }
 
-    /* ── Header ───────────────────────────────── */
     header {
       max-width: 860px;
       width: 100%;
@@ -46,11 +45,7 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .logo {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
+    .logo { display: flex; flex-direction: column; gap: 0.25rem; }
 
     h1 {
       font-size: 1.1rem;
@@ -67,7 +62,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* ── Cards ────────────────────────────────── */
     .cards {
       max-width: 860px;
       width: 100%;
@@ -98,7 +92,6 @@
       box-shadow: 0 0 32px -6px var(--green-ring);
     }
 
-    /* ── Route label ──────────────────────────── */
     .route-eyebrow {
       font-family: var(--mono);
       font-size: 0.65rem;
@@ -114,7 +107,6 @@
       margin-top: 0.2rem;
     }
 
-    /* ── Price ────────────────────────────────── */
     .price-row {
       display: flex;
       align-items: baseline;
@@ -138,7 +130,6 @@
       color: var(--muted);
     }
 
-    /* ── Status badge ─────────────────────────── */
     .badge {
       display: inline-flex;
       align-items: center;
@@ -173,27 +164,16 @@
       flex-shrink: 0;
     }
 
-    .badge-alert .badge-dot {
-      animation: blink 1.6s ease-in-out infinite;
-    }
+    .badge-alert .badge-dot { animation: blink 1.6s ease-in-out infinite; }
 
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.2; }
     }
 
-    /* ── Divider ──────────────────────────────── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-    }
+    .divider { border: none; border-top: 1px solid var(--border); }
 
-    /* ── Alert flight rows ────────────────────── */
-    .alert-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+    .alert-list { display: flex; flex-direction: column; gap: 0.5rem; }
 
     .alert-row {
       display: flex;
@@ -235,14 +215,12 @@
 
     .book-btn:hover { background: rgba(244, 163, 53, 0.1); }
 
-    /* ── Cheapest note ────────────────────────── */
     .cheapest-note {
       font-family: var(--mono);
       font-size: 0.75rem;
       color: var(--muted);
     }
 
-    /* ── View all link ────────────────────────── */
     .view-all {
       margin-top: auto;
       font-family: var(--mono);
@@ -258,7 +236,6 @@
 
     .view-all:hover { opacity: 1; text-decoration: underline; }
 
-    /* ── Loading / error ──────────────────────── */
     .state-msg {
       grid-column: 1 / -1;
       font-family: var(--mono);
@@ -279,7 +256,6 @@
       line-height: 1.6;
     }
 
-    /* ── Footer ───────────────────────────────── */
     footer {
       max-width: 860px;
       width: 100%;
@@ -313,12 +289,12 @@
   <header>
     <div class="logo">
       <h1>✈ GDN <span class="arrow">↔</span> Marsa Alam</h1>
-      <span class="subtitle">alert when ≤ 500 zł · one way · 1 person</span>
+      <span class="subtitle">alert gdy ≤ 500 zł · w jedną stronę · 1 osoba</span>
     </div>
   </header>
 
   <div class="cards" id="cards">
-    <p class="state-msg">Loading…</p>
+    <p class="state-msg">Ładowanie…</p>
   </div>
 
   <footer>
@@ -327,8 +303,6 @@
   </footer>
 
   <script>
-    /* ── Helpers ─────────────────────────────── */
-
     function fmtDate(iso) {
       if (!iso) return '—';
       const [y, m, d] = iso.split('-').map(Number);
@@ -338,7 +312,7 @@
     }
 
     function fmtDateTime(iso) {
-      if (!iso) return 'never';
+      if (!iso) return 'nigdy';
       return new Date(iso).toLocaleString('pl-PL', {
         day: 'numeric', month: 'short',
         hour: '2-digit', minute: '2-digit',
@@ -346,16 +320,17 @@
       });
     }
 
-    /* ── Card builder ─────────────────────────── */
+    function lotCount(n) {
+      if (n === 1) return '1 lot';
+      if (n >= 2 && n <= 4) return `${n} loty`;
+      return `${n} lotów`;
+    }
 
     function buildCard(route) {
-      const hasAlerts  = route.alerts && route.alerts.length > 0;
-      const price      = route.cheapest_price;
-      const priceStr   = price != null
-        ? price.toLocaleString('pl-PL')
-        : '—';
+      const hasAlerts = route.alerts && route.alerts.length > 0;
+      const price     = route.cheapest_price;
+      const priceStr  = price != null ? price.toLocaleString('pl-PL') : '—';
 
-      // Alert flight rows
       const alertRows = hasAlerts
         ? `<div class="alert-list">
             ${route.alerts.map(f => `
@@ -365,46 +340,35 @@
                   <div class="alert-price">${f.price.toLocaleString('pl-PL')} zł</div>
                 </div>
                 <a class="book-btn" href="${route.url}" target="_blank" rel="noopener">
-                  Book ↗
+                  Rezerwuj ↗
                 </a>
               </div>`).join('')}
           </div>`
         : (route.cheapest_date
-            ? `<p class="cheapest-note">Cheapest: ${fmtDate(route.cheapest_date)}</p>`
+            ? `<p class="cheapest-note">Najtańszy: ${fmtDate(route.cheapest_date)}</p>`
             : '');
 
       return `
         <div class="card ${hasAlerts ? 'is-alert' : ''}">
-
           <div>
-            <div class="route-eyebrow">one-way · 1 person</div>
+            <div class="route-eyebrow">w jedną stronę · 1 osoba</div>
             <div class="route-name">${route.name}</div>
           </div>
-
           <div class="price-row">
             <span class="price ${hasAlerts ? 'is-alert' : ''}">${priceStr}</span>
             <span class="price-label">zł/os.</span>
           </div>
-
           <span class="badge ${hasAlerts ? 'badge-alert' : 'badge-watching'}">
             <span class="badge-dot"></span>
-            ${hasAlerts
-              ? `ALERT — ${route.alerts.length} flight${route.alerts.length > 1 ? 's' : ''}`
-              : 'watching'}
+            ${hasAlerts ? `ALERT — ${lotCount(route.alerts.length)}` : 'Obserwuję'}
           </span>
-
           <hr class="divider">
-
           ${alertRows}
-
           <a class="view-all" href="${route.url}" target="_blank" rel="noopener">
-            All flights on r.pl ↗
+            Wszystkie loty na r.pl ↗
           </a>
-
         </div>`;
     }
-
-    /* ── Fetch & render ───────────────────────── */
 
     async function load() {
       const cards = document.getElementById('cards');
@@ -414,22 +378,21 @@
         const data = await res.json();
 
         if (!data.routes || !data.routes.length) {
-          cards.innerHTML = '<p class="state-msg">No route data yet.</p>';
+          cards.innerHTML = '<p class="state-msg">Brak danych o trasach.</p>';
           return;
         }
 
         cards.innerHTML = data.routes.map(buildCard).join('');
 
         document.getElementById('last-checked').textContent =
-          'Last checked: ' + fmtDateTime(data.last_checked) +
-          ' · updates every 2 h';
+          'Ostatnio sprawdzono: ' + fmtDateTime(data.last_checked) +
+          ' · co 30 min';
 
       } catch (err) {
         cards.innerHTML = `
           <div class="state-error">
-            <strong>Could not load data.json</strong> — ${err.message}<br>
-            The GitHub Action may not have run yet. Go to the <strong>Actions</strong> tab
-            and trigger <em>Check Flight Prices</em> manually.
+            <strong>Nie można załadować data.json</strong> — ${err.message}<br>
+            Wejdź w zakładkę <strong>Actions</strong> i uruchom <em>Check Flight Prices</em> ręcznie.
           </div>`;
       }
     }
