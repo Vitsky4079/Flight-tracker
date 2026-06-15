@@ -13,6 +13,7 @@ import io
 import csv
 import sys
 import json
+import time
 from datetime import datetime, timezone
 
 import requests
@@ -155,25 +156,43 @@ def get_metals(fx):
 def get_stocks(fx):
     out = []
     for ticker, info in STOCKS.items():
-        try:
-            r = requests.get(
-                f"https://stooq.com/q/l/?s={ticker}&f=sd2t2ohlcv&h&e=csv",
-                headers=HEADERS, timeout=TIMEOUT,
-            )
-            row = list(csv.DictReader(io.StringIO(r.text)))[0]
-            close = float(row["Close"])
-            cur = info["currency"]
-            unit_pln = close * fx.get(cur, 1.0)
-            value = unit_pln * info["shares"]
-            out.append({
-                "label": info["label"],
-                "amount": info["shares"],
-                "unit_pln": unit_pln,
-                "value_pln": value,
-            })
-            print(f"  {info['label']:24} {close:>9.2f} {cur}  → {value:>11,.2f} zł")
-        except Exception as exc:
-            print(f"  stock ERROR {ticker}: {exc}")
+        close = None
+        # Stooq sometimes returns an empty body on first hit; try a couple times
+        for attempt in range(3):
+            try:
+                r = requests.get(
+                    f"https://stooq.com/q/l/?s={ticker}&f=sd2t2ohlcv&h&e=csv",
+                    headers=HEADERS, timeout=TIMEOUT,
+                )
+                text = r.text.strip()
+                rows = list(csv.DictReader(io.StringIO(text)))
+                if not rows:
+                    print(f"  {ticker}: empty CSV (attempt {attempt+1}) → {text[:60]!r}")
+                    time.sleep(1.0)
+                    continue
+                raw = rows[0].get("Close", "")
+                if raw in ("", "N/D", "N/A"):
+                    print(f"  {ticker}: no close yet (attempt {attempt+1})")
+                    time.sleep(1.0)
+                    continue
+                close = float(raw)
+                break
+            except Exception as exc:
+                print(f"  {ticker}: error (attempt {attempt+1}) — {exc}")
+                time.sleep(1.0)
+        if close is None:
+            print(f"  stock SKIPPED {ticker}: no usable price")
+            continue
+        cur = info["currency"]
+        unit_pln = close * fx.get(cur, 1.0)
+        value = unit_pln * info["shares"]
+        out.append({
+            "label": info["label"],
+            "amount": info["shares"],
+            "unit_pln": unit_pln,
+            "value_pln": value,
+        })
+        print(f"  {info['label']:24} {close:>9.2f} {cur}  → {value:>11,.2f} zł")
     return out
 
 
