@@ -1,403 +1,482 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>✈ GDN ↔ Marsa Alam</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg:         #090e1a;
-      --card:       #0d1525;
-      --border:     #1a2640;
-      --amber:      #f4a335;
-      --green:      #22d47e;
-      --green-bg:   rgba(34, 212, 126, 0.07);
-      --green-ring: rgba(34, 212, 126, 0.3);
-      --red:        #f87171;
-      --text:       #dde5f0;
-      --muted:      #4e6280;
-      --sans:       'Space Grotesk', system-ui, sans-serif;
-      --mono:       'JetBrains Mono', 'Fira Code', monospace;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terminal — Portfel & Loty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Palette drawn from the Mustang "Blue Ember" iridescent paint */
+  --bg:#08090f;
+  --bg-2:#0b0d15;
+  --surf:#10131e;
+  --surf-2:#151926;
+  --line:#1d2235;
+  --line-2:#262c42;
+  --txt:#e9ebf5;
+  --txt-2:#9aa3bd;
+  --muted:#576080;
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* iridescent stops */
+  --iri-1:#6f78ff;   /* indigo */
+  --iri-2:#9b6fe6;   /* violet */
+  --iri-3:#e08bb4;   /* rose */
+  --iri-4:#e9a978;   /* copper */
 
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: 2.5rem 1.25rem 3rem;
-    }
+  /* categorical (allocation) */
+  --c-crypto:#7c83ff;
+  --c-stocks:#5eead4;
+  --c-metals:#e0b15e;
+  --c-fixed:#e88bb4;
 
-    header {
-      max-width: 860px;
-      width: 100%;
-      margin: 0 auto 2.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 1.25rem;
-      border-bottom: 1px solid var(--border);
-    }
+  --up:#46d98a;
+  --down:#fb6f8a;
 
-    .logo { display: flex; flex-direction: column; gap: 0.25rem; }
+  --disp:'Sora',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
 
-    h1 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-    h1 .arrow { color: var(--amber); }
+html{-webkit-text-size-adjust:100%}
 
-    .subtitle {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-    }
+body{
+  font-family:var(--disp);
+  background:
+    radial-gradient(1100px 600px at 78% -8%, rgba(111,120,255,.10), transparent 60%),
+    radial-gradient(900px 500px at 8% 108%, rgba(232,139,180,.07), transparent 55%),
+    var(--bg);
+  color:var(--txt);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:-.01em;
+}
 
-    .cards {
-      max-width: 860px;
-      width: 100%;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      flex: 1;
-    }
+.wrap{max-width:1080px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
 
-    @media (max-width: 580px) {
-      .cards { grid-template-columns: 1fr; }
-    }
+/* ── Top bar ─────────────────────────────────── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;
+  padding-bottom:1.1rem;margin-bottom:2rem;
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:.6rem}
+.brand .glyph{
+  width:11px;height:11px;border-radius:3px;
+  background:linear-gradient(135deg,var(--iri-1),var(--iri-3) 55%,var(--iri-4));
+  box-shadow:0 0 16px -1px var(--iri-2);
+  transform:rotate(45deg);
+}
+.brand .name{
+  font-family:var(--mono);font-weight:800;font-size:.82rem;
+  letter-spacing:.16em;text-transform:uppercase;
+}
+.brand .name .dim{color:var(--muted)}
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.6rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      transition: border-color .4s, box-shadow .4s;
-    }
+.sync{
+  display:flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:.68rem;color:var(--muted);
+  letter-spacing:.06em;
+}
+.live-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--up);
+  box-shadow:0 0 0 0 rgba(70,217,138,.6);
+  animation:pulse 2.4s ease-out infinite;
+}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(70,217,138,.5)}70%{box-shadow:0 0 0 7px rgba(70,217,138,0)}100%{box-shadow:0 0 0 0 rgba(70,217,138,0)}}
 
-    .card.is-alert {
-      border-color: var(--green-ring);
-      box-shadow: 0 0 32px -6px var(--green-ring);
-    }
+/* ── Tabs ────────────────────────────────────── */
+.tabs{
+  display:inline-flex;gap:.2rem;padding:.28rem;
+  background:var(--surf);border:1px solid var(--line);border-radius:12px;
+}
+.tab{
+  font-family:var(--mono);font-size:.74rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--txt-2);background:none;border:none;cursor:pointer;
+  padding:.5rem .95rem;border-radius:9px;
+  transition:color .2s,background .2s;
+}
+.tab:hover{color:var(--txt)}
+.tab[aria-selected="true"]{
+  color:#0a0b12;
+  background:linear-gradient(120deg,var(--iri-1),var(--iri-3) 70%,var(--iri-4));
+}
 
-    .route-eyebrow {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+/* ── View toggling ───────────────────────────── */
+.view{display:none}
+.view.active{display:block;animation:fade .45s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-    .route-name {
-      font-size: 1.05rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-top: 0.2rem;
-    }
+/* ── Hero (net worth) ────────────────────────── */
+.hero{margin-bottom:1.6rem}
+.eyebrow{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;
+}
+.networth{
+  font-family:var(--mono);font-weight:800;
+  font-size:clamp(2.9rem,9vw,5.4rem);line-height:.95;
+  letter-spacing:-.04em;
+  background:linear-gradient(100deg,var(--iri-1),var(--iri-2) 32%,var(--iri-3) 64%,var(--iri-4));
+  background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:shift 9s ease-in-out infinite;
+}
+@keyframes shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.networth .cur{
+  font-size:.32em;font-weight:700;letter-spacing:0;
+  -webkit-text-fill-color:var(--txt-2);color:var(--txt-2);
+  margin-left:.35rem;
+}
+.hero-sub{
+  margin-top:.85rem;font-family:var(--mono);font-size:.72rem;
+  color:var(--txt-2);letter-spacing:.04em;
+}
 
-    .price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 0.35rem;
-    }
+/* ── Allocation bar ──────────────────────────── */
+.alloc{margin-bottom:2rem}
+.alloc-bar{
+  display:flex;height:12px;border-radius:7px;overflow:hidden;
+  background:var(--surf);border:1px solid var(--line);
+}
+.alloc-seg{height:100%;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.alloc-legend{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;
+  margin-top:.9rem;
+}
+@media(max-width:560px){.alloc-legend{grid-template-columns:repeat(2,1fr)}}
+.leg{
+  display:flex;flex-direction:column;gap:.25rem;
+  padding:.55rem .7rem;border:1px solid var(--line);border-radius:9px;
+  background:var(--surf);
+}
+.leg-top{display:flex;align-items:center;gap:.4rem}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.leg-name{font-size:.7rem;color:var(--txt-2);letter-spacing:.02em}
+.leg-pct{font-family:var(--mono);font-size:1rem;font-weight:700;letter-spacing:-.02em}
+.leg-val{font-family:var(--mono);font-size:.64rem;color:var(--muted)}
 
-    .price {
-      font-family: var(--mono);
-      font-size: 3.25rem;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.03em;
-      transition: color .4s;
-    }
+/* ── Bento grid ──────────────────────────────── */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:.9rem}
+.card{
+  background:linear-gradient(180deg,var(--surf),var(--bg-2));
+  border:1px solid var(--line);border-radius:16px;padding:1.3rem 1.35rem;
+}
+.card.span-crypto{grid-column:span 5}
+.card.span-stocks{grid-column:span 7}
+.card.span-metals{grid-column:span 5}
+.card.span-fixed{grid-column:span 7}
+@media(max-width:820px){
+  .card.span-crypto,.card.span-stocks,.card.span-metals,.card.span-fixed{grid-column:span 12}
+}
 
-    .price.is-alert { color: var(--green); }
+.card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.1rem;padding-bottom:.85rem;border-bottom:1px solid var(--line);
+}
+.card-title{display:flex;align-items:center;gap:.55rem}
+.card-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
+.card-name{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--txt-2)}
+.card-total{font-family:var(--mono);font-size:1.18rem;font-weight:800;letter-spacing:-.025em}
+.card-total .u{font-size:.62em;color:var(--muted);font-weight:500;margin-left:.18rem}
 
-    .price-label {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
+/* holdings rows */
+.rows{display:flex;flex-direction:column}
+.row{
+  display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  padding:.5rem 0;border-bottom:1px dashed var(--line);
+}
+.row:last-child{border-bottom:none}
+.row-l{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.row-name{font-size:.86rem;font-weight:500}
+.row-amt{font-family:var(--mono);font-size:.64rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-r{display:flex;flex-direction:column;align-items:flex-end;gap:.15rem;flex-shrink:0}
+.row-val{font-family:var(--mono);font-size:.86rem;font-weight:700;letter-spacing:-.02em}
+.chg{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.02em}
+.chg.up{color:var(--up)}
+.chg.down{color:var(--down)}
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: 999px;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      width: fit-content;
-    }
+.row-note{font-size:.66rem;color:var(--muted);margin-top:.15rem;line-height:1.4}
 
-    .badge-watching {
-      background: rgba(78, 98, 128, 0.15);
-      color: var(--muted);
-      border: 1px solid rgba(78, 98, 128, 0.25);
-    }
+/* ── Flights ─────────────────────────────────── */
+.flights{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+@media(max-width:680px){.flights{grid-template-columns:1fr}}
+.fcard{
+  background:linear-gradient(180deg,var(--surf),var(--bg-2));
+  border:1px solid var(--line);border-radius:16px;padding:1.5rem;
+  display:flex;flex-direction:column;gap:1.1rem;
+  transition:border-color .4s,box-shadow .4s;
+}
+.fcard.alert{border-color:rgba(70,217,138,.4);box-shadow:0 0 40px -10px rgba(70,217,138,.4)}
+.f-eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.f-route{font-family:var(--disp);font-size:1.1rem;font-weight:600;margin-top:.25rem}
+.f-price-row{display:flex;align-items:baseline;gap:.4rem}
+.f-price{font-family:var(--mono);font-size:3rem;font-weight:800;line-height:1;letter-spacing:-.04em}
+.f-price.alert{
+  background:linear-gradient(120deg,var(--up),var(--c-stocks));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.f-unit{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.badge{
+  display:inline-flex;align-items:center;gap:.45rem;width:fit-content;
+  font-family:var(--mono);font-size:.64rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.3rem .7rem;border-radius:999px;
+}
+.badge.watch{background:rgba(87,96,128,.14);color:var(--txt-2);border:1px solid var(--line-2)}
+.badge.hit{background:rgba(70,217,138,.08);color:var(--up);border:1px solid rgba(70,217,138,.35)}
+.badge .bd{width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge.hit .bd{animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.f-divider{border:none;border-top:1px solid var(--line)}
+.f-note{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.alert-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.6rem .75rem;border-radius:9px;
+  background:rgba(70,217,138,.07);border:1px solid rgba(70,217,138,.18);
+  margin-bottom:.5rem;
+}
+.alert-date{font-family:var(--mono);font-size:.8rem;font-weight:700}
+.alert-price{font-family:var(--mono);font-size:.78rem;color:var(--up);margin-top:.1rem}
+.book{
+  font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--iri-4);text-decoration:none;
+  border:1px solid rgba(233,169,120,.35);padding:.3rem .65rem;border-radius:7px;
+  white-space:nowrap;transition:background .15s;
+}
+.book:hover{background:rgba(233,169,120,.1)}
+.f-link{
+  margin-top:auto;font-family:var(--mono);font-size:.7rem;color:var(--iri-4);
+  text-decoration:none;opacity:.85;transition:opacity .15s;
+}
+.f-link:hover{opacity:1;text-decoration:underline}
 
-    .badge-alert {
-      background: var(--green-bg);
-      color: var(--green);
-      border: 1px solid var(--green-ring);
-    }
+/* ── States ──────────────────────────────────── */
+.state{font-family:var(--mono);font-size:.82rem;color:var(--muted);padding:2.5rem 0}
+.state.err{
+  color:var(--down);background:rgba(251,111,138,.07);
+  border:1px solid rgba(251,111,138,.2);border-radius:12px;
+  padding:1.1rem 1.3rem;line-height:1.6;
+}
 
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-      flex-shrink: 0;
-    }
+/* ── Footer ──────────────────────────────────── */
+.foot{
+  margin-top:2.5rem;padding-top:1.1rem;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+  font-family:var(--mono);font-size:.66rem;color:var(--muted);letter-spacing:.04em;
+}
+.foot a{color:var(--muted);text-decoration:none}
+.foot a:hover{color:var(--txt)}
 
-    .badge-alert .badge-dot { animation: blink 1.6s ease-in-out infinite; }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.2; }
-    }
-
-    .divider { border: none; border-top: 1px solid var(--border); }
-
-    .alert-list { display: flex; flex-direction: column; gap: 0.5rem; }
-
-    .alert-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.65rem 0.8rem;
-      border-radius: 9px;
-      background: var(--green-bg);
-      border: 1px solid rgba(34, 212, 126, 0.18);
-    }
-
-    .alert-date {
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      font-weight: 700;
-    }
-
-    .alert-price {
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      color: var(--green);
-      margin-top: 0.1rem;
-    }
-
-    .book-btn {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--amber);
-      text-decoration: none;
-      border: 1px solid rgba(244, 163, 53, 0.35);
-      padding: 0.28rem 0.65rem;
-      border-radius: 6px;
-      white-space: nowrap;
-      transition: background .15s;
-    }
-
-    .book-btn:hover { background: rgba(244, 163, 53, 0.1); }
-
-    .cheapest-note {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .view-all {
-      margin-top: auto;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--amber);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      opacity: 0.8;
-      transition: opacity .15s;
-    }
-
-    .view-all:hover { opacity: 1; text-decoration: underline; }
-
-    .state-msg {
-      grid-column: 1 / -1;
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      color: var(--muted);
-      padding: 2rem 0;
-    }
-
-    .state-error {
-      grid-column: 1 / -1;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--red);
-      background: rgba(248, 113, 113, 0.08);
-      border: 1px solid rgba(248, 113, 113, 0.2);
-      padding: 1rem 1.25rem;
-      border-radius: 10px;
-      line-height: 1.6;
-    }
-
-    footer {
-      max-width: 860px;
-      width: 100%;
-      margin: 2rem auto 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
-    }
-
-    #last-checked {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-    }
-
-    .footer-link {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color .15s;
-    }
-
-    .footer-link:hover { color: var(--text); }
-  </style>
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
 </head>
 <body>
+<div class="wrap">
 
-  <header>
-    <div class="logo">
-      <h1>✈ GDN <span class="arrow">↔</span> Marsa Alam</h1>
-      <span class="subtitle">alert gdy ≤ 500 zł · w jedną stronę · 1 osoba</span>
+  <div class="topbar">
+    <div class="brand">
+      <span class="glyph"></span>
+      <span class="name">NET<span class="dim">.</span>WORTH<span class="dim">.TERMINAL</span></span>
     </div>
-  </header>
-
-  <div class="cards" id="cards">
-    <p class="state-msg">Ładowanie…</p>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" id="tab-portfel" onclick="showView('portfel')">Portfel</button>
+      <button class="tab" role="tab" aria-selected="false" id="tab-loty" onclick="showView('loty')">Loty</button>
+    </div>
+    <div class="sync"><span class="live-dot"></span><span id="sync-label">synchronizacja…</span></div>
   </div>
 
-  <footer>
-    <span id="last-checked">—</span>
-    <a class="footer-link" href="https://r.pl/bilety-czarterowe" target="_blank">r.pl ↗</a>
-  </footer>
+  <!-- ════ PORTFEL ════ -->
+  <section class="view active" id="view-portfel">
+    <div class="hero">
+      <div class="eyebrow">Wartość całkowita</div>
+      <div class="networth"><span id="nw">—</span><span class="cur">zł</span></div>
+      <div class="hero-sub" id="nw-sub">ładowanie pozycji…</div>
+    </div>
 
-  <script>
-    function fmtDate(iso) {
-      if (!iso) return '—';
-      const [y, m, d] = iso.split('-').map(Number);
-      return new Date(y, m - 1, d).toLocaleDateString('pl-PL', {
-        day: 'numeric', month: 'short', year: 'numeric'
-      });
-    }
+    <div class="alloc">
+      <div class="alloc-bar" id="alloc-bar"></div>
+      <div class="alloc-legend" id="alloc-legend"></div>
+    </div>
 
-    function fmtDateTime(iso) {
-      if (!iso) return 'nigdy';
-      return new Date(iso).toLocaleString('pl-PL', {
-        day: 'numeric', month: 'short',
-        hour: '2-digit', minute: '2-digit',
-        timeZone: 'Europe/Warsaw'
-      });
-    }
+    <div class="bento" id="bento">
+      <p class="state">Ładowanie portfela…</p>
+    </div>
+  </section>
 
-    function lotCount(n) {
-      if (n === 1) return '1 lot';
-      if (n >= 2 && n <= 4) return `${n} loty`;
-      return `${n} lotów`;
-    }
+  <!-- ════ LOTY ════ -->
+  <section class="view" id="view-loty">
+    <div class="hero">
+      <div class="eyebrow">Alert lotniczy · ≤ 500 zł · w jedną stronę · 1 osoba</div>
+      <div class="networth" style="font-size:clamp(1.6rem,5vw,2.4rem)">GDN <span style="-webkit-text-fill-color:var(--iri-3);color:var(--iri-3);font-size:.85em">↔</span> Marsa Alam</div>
+    </div>
+    <div class="flights" id="flights"><p class="state">Ładowanie lotów…</p></div>
+  </section>
 
-    function buildCard(route) {
-      const hasAlerts = route.alerts && route.alerts.length > 0;
-      const price     = route.cheapest_price;
-      const priceStr  = price != null ? price.toLocaleString('pl-PL') : '—';
+  <div class="foot">
+    <span id="foot-sync">—</span>
+    <span>dane: CoinGecko · Stooq · gold-api · r.pl</span>
+  </div>
 
-      const alertRows = hasAlerts
-        ? `<div class="alert-list">
-            ${route.alerts.map(f => `
-              <div class="alert-row">
-                <div>
-                  <div class="alert-date">${fmtDate(f.date)}</div>
-                  <div class="alert-price">${f.price.toLocaleString('pl-PL')} zł</div>
-                </div>
-                <a class="book-btn" href="${route.url}" target="_blank" rel="noopener">
-                  Rezerwuj ↗
-                </a>
-              </div>`).join('')}
-          </div>`
-        : (route.cheapest_date
-            ? `<p class="cheapest-note">Najtańszy: ${fmtDate(route.cheapest_date)}</p>`
-            : '');
+</div>
 
-      return `
-        <div class="card ${hasAlerts ? 'is-alert' : ''}">
-          <div>
-            <div class="route-eyebrow">w jedną stronę · 1 osoba</div>
-            <div class="route-name">${route.name}</div>
+<script>
+/* ── helpers ─────────────────────────────────── */
+const plMoney=(n,d=0)=>n.toLocaleString('pl-PL',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtDateTime=iso=>iso?new Date(iso).toLocaleString('pl-PL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Warsaw'}):'nigdy';
+const fmtDate=iso=>{if(!iso)return'—';const[y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('pl-PL',{day:'numeric',month:'short',year:'numeric'});};
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const CAT=[
+  {key:'Kryptowaluty',color:'var(--c-crypto)'},
+  {key:'Akcje / ETF',color:'var(--c-stocks)'},
+  {key:'Metale',color:'var(--c-metals)'},
+  {key:'Nieruchomości i pojazdy',color:'var(--c-fixed)'},
+];
+const colorFor=name=>(CAT.find(c=>c.key===name)||{}).color||'var(--c-crypto)';
+
+/* ── tabs ────────────────────────────────────── */
+function showView(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.getElementById('tab-portfel').setAttribute('aria-selected',v==='portfel');
+  document.getElementById('tab-loty').setAttribute('aria-selected',v==='loty');
+}
+
+/* ── count-up ────────────────────────────────── */
+function countUp(el,target){
+  if(reduceMotion||target<=0){el.textContent=plMoney(target);return;}
+  const dur=950,t0=performance.now();
+  const ease=x=>1-Math.pow(1-x,3);
+  function step(t){
+    const p=Math.min((t-t0)/dur,1);
+    el.textContent=plMoney(Math.round(target*ease(p)));
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ── render a holdings row ───────────────────── */
+function holdingRow(item){
+  const amt=item.amount!=null
+    ? `${item.amount>=1?plMoney(item.amount,item.amount%1?2:0):item.amount} szt.`
+    : '';
+  const note=item.note?`<div class="row-amt">${item.note}</div>`:'';
+  let chg='';
+  if(item.change_24h!=null){
+    const up=item.change_24h>=0;
+    chg=`<span class="chg ${up?'up':'down'}">${up?'▲':'▼'} ${Math.abs(item.change_24h).toFixed(1)}%</span>`;
+  }
+  return `<div class="row">
+    <div class="row-l">
+      <span class="row-name">${item.label}</span>
+      ${item.note?note:(amt?`<span class="row-amt">${amt}</span>`:'')}
+    </div>
+    <div class="row-r">
+      <span class="row-val">${plMoney(item.value_pln)} zł</span>
+      ${chg}
+    </div>
+  </div>`;
+}
+
+/* ── portfolio ───────────────────────────────── */
+async function loadPortfolio(){
+  const bento=document.getElementById('bento');
+  try{
+    const res=await fetch('portfolio.json?t='+Date.now());
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const d=await res.json();
+
+    countUp(document.getElementById('nw'),d.total_pln);
+    const liquid=(d.groups||[]).filter(g=>g.name!=='Nieruchomości i pojazdy').reduce((s,g)=>s+g.total_pln,0);
+    document.getElementById('nw-sub').textContent=
+      `z czego płynne aktywa: ${plMoney(liquid)} zł · ${plMoney(d.total_pln-liquid)} zł w nieruchomościach i pojazdach`;
+
+    /* allocation */
+    const total=d.total_pln||1;
+    const bar=document.getElementById('alloc-bar'),leg=document.getElementById('alloc-legend');
+    bar.innerHTML='';leg.innerHTML='';
+    CAT.forEach(c=>{
+      const g=(d.groups||[]).find(x=>x.name===c.key);if(!g)return;
+      const pct=g.total_pln/total*100;
+      const seg=document.createElement('div');
+      seg.className='alloc-seg';seg.style.background=c.color;
+      seg.style.width='0%';bar.appendChild(seg);
+      requestAnimationFrame(()=>{seg.style.width=pct+'%';});
+      leg.insertAdjacentHTML('beforeend',
+        `<div class="leg">
+          <div class="leg-top"><span class="leg-dot" style="background:${c.color}"></span><span class="leg-name">${c.key}</span></div>
+          <span class="leg-pct">${pct.toFixed(pct<10?1:0)}%</span>
+          <span class="leg-val">${plMoney(g.total_pln)} zł</span>
+        </div>`);
+    });
+
+    /* bento cards */
+    const spanClass={'Kryptowaluty':'span-crypto','Akcje / ETF':'span-stocks','Metale':'span-metals','Nieruchomości i pojazdy':'span-fixed'};
+    bento.innerHTML=(d.groups||[]).map(g=>{
+      const items=[...g.items].sort((a,b)=>b.value_pln-a.value_pln);
+      return `<div class="card ${spanClass[g.name]||''}">
+        <div class="card-head">
+          <div class="card-title">
+            <span class="card-dot" style="background:${colorFor(g.name)}"></span>
+            <span class="card-name">${g.name}</span>
           </div>
-          <div class="price-row">
-            <span class="price ${hasAlerts ? 'is-alert' : ''}">${priceStr}</span>
-            <span class="price-label">zł/os.</span>
-          </div>
-          <span class="badge ${hasAlerts ? 'badge-alert' : 'badge-watching'}">
-            <span class="badge-dot"></span>
-            ${hasAlerts ? `ALERT — ${lotCount(route.alerts.length)}` : 'Obserwuję'}
-          </span>
-          <hr class="divider">
-          ${alertRows}
-          <a class="view-all" href="${route.url}" target="_blank" rel="noopener">
-            Wszystkie loty na r.pl ↗
-          </a>
-        </div>`;
-    }
+          <span class="card-total">${plMoney(g.total_pln)}<span class="u">zł</span></span>
+        </div>
+        <div class="rows">${items.map(holdingRow).join('')}</div>
+      </div>`;
+    }).join('');
 
-    async function load() {
-      const cards = document.getElementById('cards');
-      try {
-        const res  = await fetch('data.json?t=' + Date.now());
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
+    const sync='zsynchronizowano '+fmtDateTime(d.last_checked);
+    document.getElementById('sync-label').textContent=sync;
+    document.getElementById('foot-sync').textContent=sync+' · co 30 min';
 
-        if (!data.routes || !data.routes.length) {
-          cards.innerHTML = '<p class="state-msg">Brak danych o trasach.</p>';
-          return;
-        }
+  }catch(err){
+    bento.innerHTML=`<div class="state err"><strong>Nie można załadować portfolio.json</strong> — ${err.message}<br>Uruchom akcję <em>Check Prices</em> w zakładce Actions, aby wygenerować dane.</div>`;
+    document.getElementById('nw').textContent='—';
+    document.getElementById('nw-sub').textContent='brak danych';
+  }
+}
 
-        cards.innerHTML = data.routes.map(buildCard).join('');
+/* ── flights ─────────────────────────────────── */
+function lotCount(n){if(n===1)return'1 lot';if(n>=2&&n<=4)return n+' loty';return n+' lotów';}
+async function loadFlights(){
+  const box=document.getElementById('flights');
+  try{
+    const res=await fetch('data.json?t='+Date.now());
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const d=await res.json();
+    if(!d.routes||!d.routes.length){box.innerHTML='<p class="state">Brak danych o trasach.</p>';return;}
+    box.innerHTML=d.routes.map(r=>{
+      const hit=r.alerts&&r.alerts.length>0;
+      const price=r.cheapest_price!=null?plMoney(r.cheapest_price):'—';
+      const rows=hit
+        ?r.alerts.map(f=>`<div class="alert-row"><div><div class="alert-date">${fmtDate(f.date)}</div><div class="alert-price">${plMoney(f.price)} zł</div></div><a class="book" href="${r.url}" target="_blank" rel="noopener">Rezerwuj ↗</a></div>`).join('')
+        :(r.cheapest_date?`<p class="f-note">Najtańszy: ${fmtDate(r.cheapest_date)}</p>`:'');
+      return `<div class="fcard ${hit?'alert':''}">
+        <div><div class="f-eyebrow">w jedną stronę · 1 osoba</div><div class="f-route">${r.name}</div></div>
+        <div class="f-price-row"><span class="f-price ${hit?'alert':''}">${price}</span><span class="f-unit">zł/os.</span></div>
+        <span class="badge ${hit?'hit':'watch'}"><span class="bd"></span>${hit?('Alert — '+lotCount(r.alerts.length)):'Obserwuję'}</span>
+        <hr class="f-divider">
+        ${rows}
+        <a class="f-link" href="${r.url}" target="_blank" rel="noopener">Wszystkie loty na r.pl ↗</a>
+      </div>`;
+    }).join('');
+  }catch(err){
+    box.innerHTML=`<div class="state err"><strong>Nie można załadować data.json</strong> — ${err.message}</div>`;
+  }
+}
 
-        document.getElementById('last-checked').textContent =
-          'Ostatnio sprawdzono: ' + fmtDateTime(data.last_checked) +
-          ' · co 30 min';
-
-      } catch (err) {
-        cards.innerHTML = `
-          <div class="state-error">
-            <strong>Nie można załadować data.json</strong> — ${err.message}<br>
-            Wejdź w zakładkę <strong>Actions</strong> i uruchom <em>Check Flight Prices</em> ręcznie.
-          </div>`;
-      }
-    }
-
-    load();
-  </script>
+loadPortfolio();
+loadFlights();
+</script>
 </body>
 </html>
