@@ -1,4 +1,4 @@
-name: Check Flight Prices
+name: Check Prices
 
 on:
   schedule:
@@ -18,9 +18,10 @@ jobs:
           python-version: '3.11'
       - run: pip install requests
       - run: python check_prices.py
+      - run: python portfolio.py
       - run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data.json
-          git diff --staged --quiet && echo "No changes" || git commit -m "chore: update prices $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git add data.json portfolio.json
+          git diff --staged --quiet && echo "Brak zmian" || git commit -m "chore: aktualizacja danych $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push
