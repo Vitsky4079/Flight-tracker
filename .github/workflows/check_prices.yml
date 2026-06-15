@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: price-check
+  cancel-in-progress: false
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -23,5 +27,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data.json portfolio.json
-          git diff --staged --quiet && echo "Brak zmian" || git commit -m "chore: aktualizacja danych $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git diff --staged --quiet && echo "Brak zmian" && exit 0
+          git commit -m "chore: aktualizacja danych $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git pull --rebase --autostash origin main
           git push
