@@ -48,11 +48,11 @@ CRYPTO_LABELS = {
 GOLD_OZ   = 100 / 31.1035          # one 100 g bar → troy oz
 SILVER_OZ = 10                     # 10 × 1 oz bars = 10 oz
 
-# Stocks/ETF — Stooq tickers
+# Stocks/ETF — Yahoo Finance symbols
 STOCKS = {
-    "vwce.de": {"label": "Vanguard FTSE All-World", "shares": 4.83102181, "currency": "EUR"},
-    "gme.us":  {"label": "GameStop",                "shares": 10.468814,  "currency": "USD"},
-    "msft.us": {"label": "Microsoft",               "shares": 0.06762903, "currency": "USD"},
+    "VWCE.DE": {"label": "Vanguard FTSE All-World", "shares": 4.83102181},
+    "GME":     {"label": "GameStop",                "shares": 10.468814},
+    "MSFT":    {"label": "Microsoft",               "shares": 0.06762903},
 }
 
 # Fixed assets (PLN baseline) — trended by market where possible
@@ -155,44 +155,48 @@ def get_metals(fx):
 
 def get_stocks(fx):
     out = []
-    for ticker, info in STOCKS.items():
-        close = None
-        # Stooq sometimes returns an empty body on first hit; try a couple times
+    for symbol, info in STOCKS.items():
+        price = cur = prev = None
+
+        # Primary: Yahoo Finance chart API (JSON, reliable from cloud runners)
         for attempt in range(3):
             try:
                 r = requests.get(
-                    f"https://stooq.com/q/l/?s={ticker}&f=sd2t2ohlcv&h&e=csv",
+                    f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}",
+                    params={"interval": "1d", "range": "5d"},
                     headers=HEADERS, timeout=TIMEOUT,
                 )
-                text = r.text.strip()
-                rows = list(csv.DictReader(io.StringIO(text)))
-                if not rows:
-                    print(f"  {ticker}: empty CSV (attempt {attempt+1}) → {text[:60]!r}")
-                    time.sleep(1.0)
-                    continue
-                raw = rows[0].get("Close", "")
-                if raw in ("", "N/D", "N/A"):
-                    print(f"  {ticker}: no close yet (attempt {attempt+1})")
-                    time.sleep(1.0)
-                    continue
-                close = float(raw)
-                break
+                meta = r.json()["chart"]["result"][0]["meta"]
+                price = meta.get("regularMarketPrice")
+                cur = meta.get("currency", "USD")
+                prev = meta.get("chartPreviousClose") or meta.get("previousClose")
+                if price:
+                    break
             except Exception as exc:
-                print(f"  {ticker}: error (attempt {attempt+1}) — {exc}")
+                print(f"  {symbol}: Yahoo attempt {attempt+1} — {exc}")
                 time.sleep(1.0)
-        if close is None:
-            print(f"  stock SKIPPED {ticker}: no usable price")
+
+        if price is None:
+            print(f"  stock SKIPPED {symbol}: no usable price")
             continue
-        cur = info["currency"]
-        unit_pln = close * fx.get(cur, 1.0)
+
+        # GBp (London pence) → GBP
+        if cur == "GBp":
+            price /= 100; cur = "GBP"
+
+        unit_pln = price * fx.get(cur, 1.0)
         value = unit_pln * info["shares"]
-        out.append({
+        change = ((price - prev) / prev * 100) if prev else None
+        row = {
             "label": info["label"],
             "amount": info["shares"],
             "unit_pln": unit_pln,
             "value_pln": value,
-        })
-        print(f"  {info['label']:24} {close:>9.2f} {cur}  → {value:>11,.2f} zł")
+        }
+        if change is not None:
+            row["change_24h"] = change
+        out.append(row)
+        print(f"  {info['label']:24} {price:>9.2f} {cur}  → {value:>11,.2f} zł")
     return out
 
 
