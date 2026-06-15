@@ -1,0 +1,137 @@
+{
+  "last_checked": "2026-06-15T15:10:22.753251+00:00",
+  "total_pln": 1062016.1703395024,
+  "groups": [
+    {
+      "name": "Kryptowaluty",
+      "icon": "₿",
+      "items": [
+        {
+          "label": "Bitcoin",
+          "amount": 0.03249747,
+          "unit_pln": 243891,
+          "value_pln": 7925.8404557700005,
+          "change_24h": 3.679345047582233
+        },
+        {
+          "label": "Cosmos",
+          "amount": 29.2935,
+          "unit_pln": 7.3,
+          "value_pln": 213.84255000000002,
+          "change_24h": 1.2343515938064251
+        },
+        {
+          "label": "Ethereum",
+          "amount": 0.01175,
+          "unit_pln": 6645.24,
+          "value_pln": 78.08157,
+          "change_24h": 8.908719063403499
+        },
+        {
+          "label": "MANA",
+          "amount": 5300,
+          "unit_pln": 0.256241,
+          "value_pln": 1358.0773,
+          "change_24h": 6.353952447596889
+        },
+        {
+          "label": "Pepe",
+          "amount": 526749331,
+          "unit_pln": 1.1e-05,
+          "value_pln": 5794.242641,
+          "change_24h": 7.6329015108069305
+        },
+        {
+          "label": "Dogecoin",
+          "amount": 10032,
+          "unit_pln": 0.327687,
+          "value_pln": 3287.3559840000003,
+          "change_24h": 3.658923545520601
+        },
+        {
+          "label": "LUNC",
+          "amount": 10155352,
+          "unit_pln": 0.00026915,
+          "value_pln": 2733.3129908,
+          "change_24h": 4.988599597202539
+        },
+        {
+          "label": "JasmyCoin",
+          "amount": 101917,
+          "unit_pln": 0.01923532,
+          "value_pln": 1960.40610844,
+          "change_24h": -0.21474081801595957
+        },
+        {
+          "label": "Shiba Inu",
+          "amount": 100664146,
+          "unit_pln": 1.875e-05,
+          "value_pln": 1887.4527374999998,
+          "change_24h": 4.416771149155121
+        },
+        {
+          "label": "BONK",
+          "amount": 101080117,
+          "unit_pln": 1.838e-05,
+          "value_pln": 1857.85255046,
+          "change_24h": 14.7538733709494
+        },
+        {
+          "label": "TRUMP",
+          "amount": 12,
+          "unit_pln": 7.33,
+          "value_pln": 87.96000000000001,
+          "change_24h": -0.378382051705256
+        }
+      ],
+      "total_pln": 27184.424887970003
+    },
+    {
+      "name": "Metale",
+      "icon": "🪙",
+      "items": [
+        {
+          "label": "Złoto (sztabka 100 g)",
+          "amount": 3.2151,
+          "unit_pln": 15937.592167837285,
+          "value_pln": 51240.51045006923
+        },
+        {
+          "label": "Srebro (10 × 1 oz)",
+          "amount": 10,
+          "unit_pln": 259.1235001463272,
+          "value_pln": 2591.235001463272
+        }
+      ],
+      "total_pln": 53831.74545153251
+    },
+    {
+      "name": "Akcje / ETF",
+      "icon": "📈",
+      "items": [],
+      "total_pln": 0
+    },
+    {
+      "name": "Nieruchomości i pojazdy",
+      "icon": "🏠",
+      "items": [
+        {
+          "label": "Mieszkanie (Ujeścisko, 45 m²)",
+          "note": "45 m² + ogród + miejsce postojowe + piwnica",
+          "value_pln": 650000
+        },
+        {
+          "label": "Ford Mustang Dark Horse",
+          "note": "5.0 V8 453 KM, manual, 2025, 10 tys. km",
+          "value_pln": 315000
+        },
+        {
+          "label": "Honda Dax 125",
+          "note": "2025, biały wrap",
+          "value_pln": 16000
+        }
+      ],
+      "total_pln": 981000
+    }
+  ]
+}
