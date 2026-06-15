@@ -83,6 +83,16 @@ body{
   font-family:var(--mono);font-size:.68rem;color:var(--muted);
   letter-spacing:.06em;
 }
+.refresh{
+  font-family:var(--mono);font-size:.95rem;line-height:1;
+  color:var(--txt-2);background:var(--surf);
+  border:1px solid var(--line);border-radius:8px;cursor:pointer;
+  width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;
+  transition:color .15s,border-color .15s,background .15s;
+}
+.refresh:hover{color:var(--txt);border-color:var(--line-2);background:var(--surf-2)}
+.refresh.spinning{animation:spin .6s linear infinite;color:var(--iri-1);border-color:var(--iri-1)}
+@keyframes spin{to{transform:rotate(360deg)}}
 .live-dot{
   width:6px;height:6px;border-radius:50%;background:var(--up);
   box-shadow:0 0 0 0 rgba(70,217,138,.6);
@@ -289,7 +299,7 @@ body{
       <button class="tab" role="tab" aria-selected="true" id="tab-loty" onclick="showView('loty')">Loty</button>
       <button class="tab" role="tab" aria-selected="false" id="tab-portfel" onclick="showView('portfel')">Portfel</button>
     </div>
-    <div class="sync"><span class="live-dot"></span><span id="sync-label">synchronizacja…</span></div>
+    <div class="sync"><button id="refresh-btn" class="refresh" onclick="refreshAll()" title="Odśwież" aria-label="Odśwież">↻</button><span class="live-dot"></span><span id="sync-label">synchronizacja…</span></div>
   </div>
 
   <!-- ════ PORTFEL ════ -->
@@ -347,6 +357,18 @@ function showView(v){
   document.getElementById('view-'+v).classList.add('active');
   document.getElementById('tab-portfel').setAttribute('aria-selected',v==='portfel');
   document.getElementById('tab-loty').setAttribute('aria-selected',v==='loty');
+  // re-load the view being opened so the count-up animation replays with fresh data
+  if(v==='portfel') loadPortfolio();
+  else loadFlights();
+}
+
+/* ── manual refresh ──────────────────────────── */
+function refreshAll(){
+  const btn=document.getElementById('refresh-btn');
+  if(btn) btn.classList.add('spinning');
+  Promise.all([loadPortfolio(),loadFlights()]).finally(()=>{
+    setTimeout(()=>btn&&btn.classList.remove('spinning'),600);
+  });
 }
 
 /* ── count-up ────────────────────────────────── */
