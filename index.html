@@ -163,17 +163,14 @@ body{
 .leg-val{font-family:var(--mono);font-size:.64rem;color:var(--muted)}
 
 /* ── Bento grid ──────────────────────────────── */
-.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:.9rem}
+.bento{display:grid;grid-template-columns:1.15fr 1fr;gap:.9rem;align-items:start}
+.bento-col{display:flex;flex-direction:column;gap:.9rem;min-width:0}
 .card{
   background:linear-gradient(180deg,var(--surf),var(--bg-2));
   border:1px solid var(--line);border-radius:16px;padding:1.3rem 1.35rem;
 }
-.card.span-crypto{grid-column:span 5}
-.card.span-stocks{grid-column:span 7}
-.card.span-metals{grid-column:span 5}
-.card.span-fixed{grid-column:span 7}
 @media(max-width:820px){
-  .card.span-crypto,.card.span-stocks,.card.span-metals,.card.span-fixed{grid-column:span 12}
+  .bento{grid-template-columns:1fr}
 }
 
 .card-head{
@@ -288,14 +285,14 @@ body{
       <span class="name">NET<span class="dim">.</span>WORTH<span class="dim">.TERMINAL</span></span>
     </div>
     <div class="tabs" role="tablist">
-      <button class="tab" role="tab" aria-selected="true" id="tab-portfel" onclick="showView('portfel')">Portfel</button>
-      <button class="tab" role="tab" aria-selected="false" id="tab-loty" onclick="showView('loty')">Loty</button>
+      <button class="tab" role="tab" aria-selected="false" id="tab-portfel" onclick="showView('portfel')">Portfel</button>
+      <button class="tab" role="tab" aria-selected="true" id="tab-loty" onclick="showView('loty')">Loty</button>
     </div>
     <div class="sync"><span class="live-dot"></span><span id="sync-label">synchronizacja…</span></div>
   </div>
 
   <!-- ════ PORTFEL ════ -->
-  <section class="view active" id="view-portfel">
+  <section class="view" id="view-portfel">
     <div class="hero">
       <div class="eyebrow">Wartość całkowita</div>
       <div class="networth"><span id="nw">—</span><span class="cur">zł</span></div>
@@ -313,7 +310,7 @@ body{
   </section>
 
   <!-- ════ LOTY ════ -->
-  <section class="view" id="view-loty">
+  <section class="view active" id="view-loty">
     <div class="hero">
       <div class="eyebrow">Alert lotniczy · ≤ 500 zł · w jedną stronę · 1 osoba</div>
       <div class="networth" style="font-size:clamp(1.6rem,5vw,2.4rem)">GDN <span style="-webkit-text-fill-color:var(--iri-3);color:var(--iri-3);font-size:.85em">↔</span> Marsa Alam</div>
@@ -419,11 +416,10 @@ async function loadPortfolio(){
         </div>`);
     });
 
-    /* bento cards */
-    const spanClass={'Kryptowaluty':'span-crypto','Akcje / ETF':'span-stocks','Metale':'span-metals','Nieruchomości i pojazdy':'span-fixed'};
-    bento.innerHTML=(d.groups||[]).map(g=>{
+    /* bento cards — crypto in left column, the rest stacked on the right */
+    const cardHTML=g=>{
       const items=[...g.items].sort((a,b)=>b.value_pln-a.value_pln);
-      return `<div class="card ${spanClass[g.name]||''}">
+      return `<div class="card">
         <div class="card-head">
           <div class="card-title">
             <span class="card-dot" style="background:${colorFor(g.name)}"></span>
@@ -433,7 +429,13 @@ async function loadPortfolio(){
         </div>
         <div class="rows">${items.map(holdingRow).join('')}</div>
       </div>`;
-    }).join('');
+    };
+    const groups=d.groups||[];
+    const crypto=groups.find(g=>g.name==='Kryptowaluty');
+    const rest=groups.filter(g=>g.name!=='Kryptowaluty');
+    bento.innerHTML=
+      `<div class="bento-col">${crypto?cardHTML(crypto):''}</div>`+
+      `<div class="bento-col">${rest.map(cardHTML).join('')}</div>`;
 
     const sync='zsynchronizowano '+fmtDateTime(d.last_checked);
     document.getElementById('sync-label').textContent=sync;
