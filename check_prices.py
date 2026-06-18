@@ -8,13 +8,14 @@ Run by GitHub Actions on a schedule — no browser needed (prices are SSR).
 import re
 import sys
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import requests
 
 # ── Config ────────────────────────────────────────────────────────
-THRESHOLD = 500
+THRESHOLD = 500              # one-way alert threshold (PLN/person)
+ROUNDTRIP_THRESHOLD = 1000   # round-trip alert threshold (out + return)
 AGE_PARAM = "1996-06-14"
 
 ROUTES = [
@@ -145,21 +146,115 @@ def scrape(route: dict) -> dict:
     }
 
 
+def scrape_roundtrip() -> dict:
+    """
+    Fetch the round-trip page (oneWay=false) and find the cheapest valid
+    out + return pairing. Round-trip leg prices are much lower than one-way
+    tickets, so this must be scraped separately.
+    """
+    # rolling next Saturday (charter flights depart Saturdays)
+    today = datetime.now().date()
+    days = (5 - today.weekday()) % 7 or 7          # 5 = Saturday
+    sat = (today + timedelta(days=days)).strftime("%Y-%m-%d")
+
+    url = (
+        "https://r.pl/bilety-czarterowe/egipt/marsa-alam"
+        f"?skad=GDN&oneWay=false&wiek={AGE_PARAM}&data={sat}"
+    )
+
+    print(f"\n── Round trip (GDN ↔ Marsa Alam) ──")
+    print(f"   URL: {url}")
+
+    result = {
+        "name": "GDN ↔ Marsa Alam",
+        "url": url,
+        "threshold": ROUNDTRIP_THRESHOLD,
+        "cheapest_total": None,
+        "out": None,
+        "ret": None,
+        "alert": False,
+    }
+
+    try:
+        resp = requests.get(url, headers=HEADERS, timeout=30)
+        print(f"   HTTP {resp.status_code}  |  {len(resp.text):,} chars")
+        resp.raise_for_status()
+    except requests.RequestException as exc:
+        print(f"   FETCH ERROR: {exc}")
+        result["error"] = str(exc)
+        return result
+
+    text = resp.text
+    i_wylot  = text.find("Wylot")
+    i_powrot = text.find("Powrót")
+    print(f"   'Wylot' @ {i_wylot}   'Powrót' @ {i_powrot}")
+
+    if i_wylot == -1 or i_powrot == -1 or i_powrot < i_wylot:
+        print("   WARNING: couldn't locate both Wylot and Powrót sections")
+        return result
+
+    out_html = text[i_wylot:i_powrot]   # outbound chips
+    ret_html = text[i_powrot:]          # return chips
+
+    def parse(section):
+        flights = []
+        for m in ROW_RE.finditer(section):
+            price = int(re.sub(r"[\s\u00A0]", "", m.group(3)))
+            date  = resolve_date(int(m.group(1)), m.group(2))
+            if date:
+                flights.append({"date": date, "price": price})
+        return flights
+
+    outs = parse(out_html)
+    rets = parse(ret_html)
+    print(f"   Outbound legs: {len(outs)}   Return legs: {len(rets)}")
+
+    if not outs or not rets:
+        print("   WARNING: missing legs — cannot compute round trip")
+        return result
+
+    # cheapest total where the return is strictly after the outbound
+    best = None
+    for o in outs:
+        for r in rets:
+            if r["date"] > o["date"]:
+                total = o["price"] + r["price"]
+                if best is None or total < best[0]:
+                    best = (total, o, r)
+
+    if best is None:
+        print("   WARNING: no valid out→return pairing found")
+        return result
+
+    total, o, r = best
+    result["cheapest_total"] = total
+    result["out"] = o
+    result["ret"] = r
+    result["alert"] = total <= ROUNDTRIP_THRESHOLD
+    print(f"   Cheapest round trip: {total} zł  "
+          f"({o['date']} {o['price']} zł  +  {r['date']} {r['price']} zł)")
+    print(f"   Alert (≤{ROUNDTRIP_THRESHOLD} zł): {result['alert']}")
+    return result
+
+
 def main() -> None:
     print(f"=== check_prices.py  {datetime.now(timezone.utc).isoformat()} ===")
     results = [scrape(r) for r in ROUTES]
+    roundtrip = scrape_roundtrip()
 
     payload = {
-        "last_checked": datetime.now(timezone.utc).isoformat(),
-        "threshold":    THRESHOLD,
-        "routes":       results,
+        "last_checked":         datetime.now(timezone.utc).isoformat(),
+        "threshold":            THRESHOLD,
+        "roundtrip_threshold":  ROUNDTRIP_THRESHOLD,
+        "routes":               results,
+        "roundtrip":            roundtrip,
     }
 
     out = Path(__file__).parent / "data.json"
     out.write_text(json.dumps(payload, ensure_ascii=False, indent=2), "utf-8")
     print(f"\n✓ data.json written to {out}")
 
-    # Exit 1 if ALL routes failed — makes the Action step turn red
+    # Exit 1 only if BOTH one-way routes failed (round trip is best-effort)
     if all(r.get("cheapest_price") is None for r in results):
         print("ERROR: No prices retrieved for any route — check logs above", file=sys.stderr)
         sys.exit(1)
