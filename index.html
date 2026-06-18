@@ -213,8 +213,22 @@ body{
 .row-note{font-size:.66rem;color:var(--muted);margin-top:.15rem;line-height:1.4}
 
 /* ── Flights ─────────────────────────────────── */
-.flights{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
-@media(max-width:680px){.flights{grid-template-columns:1fr}}
+.flights{display:flex;flex-direction:column;gap:.9rem}
+.flights-pair{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+@media(max-width:680px){.flights-pair{grid-template-columns:1fr}}
+/* round-trip card */
+.fcard.rt{gap:1rem}
+.rt-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.rt-legs{display:flex;align-items:stretch;gap:.7rem;flex-wrap:wrap}
+.rt-leg{
+  flex:1;min-width:140px;display:flex;flex-direction:column;gap:.2rem;
+  padding:.7rem .85rem;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);
+}
+.rt-leg-lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.rt-leg-date{font-family:var(--disp);font-size:.92rem;font-weight:600}
+.rt-leg-price{font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--txt-2)}
+.rt-plus{font-family:var(--mono);font-size:1.1rem;color:var(--muted);align-self:center}
+@media(max-width:480px){.rt-plus{display:none}}
 .fcard{
   background:linear-gradient(180deg,var(--surf),var(--bg-2));
   border:1px solid var(--line);border-radius:16px;padding:1.5rem;
@@ -480,7 +494,7 @@ async function loadFlights(){
     if(!res.ok)throw new Error('HTTP '+res.status);
     const d=await res.json();
     if(!d.routes||!d.routes.length){box.innerHTML='<p class="state">Brak danych o trasach.</p>';return;}
-    box.innerHTML=d.routes.map(r=>{
+    const oneWayCards=d.routes.map(r=>{
       const hit=r.alerts&&r.alerts.length>0;
       const price=r.cheapest_price!=null?plMoney(r.cheapest_price):'—';
       const rows=hit
@@ -495,6 +509,32 @@ async function loadFlights(){
         <a class="f-link" href="${r.url}" target="_blank" rel="noopener">Wszystkie loty na r.pl ↗</a>
       </div>`;
     }).join('');
+
+    // round-trip card (full width, below the one-way pair)
+    let rtCard='';
+    const rt=d.roundtrip;
+    if(rt){
+      const thr=rt.threshold||1000;
+      if(rt.cheapest_total!=null){
+        const hit=!!rt.alert;
+        rtCard=`<div class="fcard rt ${hit?'alert':''}">
+          <div class="rt-head">
+            <div><div class="f-eyebrow">w obie strony · 1 osoba · alert ≤ ${plMoney(thr)} zł</div><div class="f-route">${rt.name}</div></div>
+            <span class="badge ${hit?'hit':'watch'}"><span class="bd"></span>${hit?'Alert':'Obserwuję'}</span>
+          </div>
+          <div class="f-price-row"><span class="f-price ${hit?'alert':''}">${plMoney(rt.cheapest_total)}</span><span class="f-unit">zł łącznie</span></div>
+          <div class="rt-legs">
+            <div class="rt-leg"><span class="rt-leg-lbl">Wylot</span><span class="rt-leg-date">${fmtDate(rt.out.date)}</span><span class="rt-leg-price">${plMoney(rt.out.price)} zł</span></div>
+            <span class="rt-plus">+</span>
+            <div class="rt-leg"><span class="rt-leg-lbl">Powrót</span><span class="rt-leg-date">${fmtDate(rt.ret.date)}</span><span class="rt-leg-price">${plMoney(rt.ret.price)} zł</span></div>
+          </div>
+          <a class="f-link" href="${rt.url}" target="_blank" rel="noopener">Zobacz na r.pl ↗</a>
+        </div>`;
+      }else{
+        rtCard=`<div class="fcard rt"><div class="f-eyebrow">w obie strony · 1 osoba</div><div class="f-route">${rt.name}</div><p class="f-note">Brak danych w obie strony przy ostatnim sprawdzeniu.</p></div>`;
+      }
+    }
+    box.innerHTML=`<div class="flights-pair">${oneWayCards}</div>${rtCard}`;
   }catch(err){
     box.innerHTML=`<div class="state err"><strong>Nie można załadować data.json</strong> — ${err.message}</div>`;
   }
