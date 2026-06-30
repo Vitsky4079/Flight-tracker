@@ -32,13 +32,12 @@ HEADERS = {
 # ── Holdings ──────────────────────────────────────────────────────
 CRYPTO = {
     # coingecko_id: amount
-    "bitcoin":      0.03249747,
+    "bitcoin":      0.04281247,
     "cosmos":       29.2935,
     "ethereum":     0.01175,
     "decentraland": 5300,        # MANA
     "pepe":         526749331,
     "dogecoin":     10032,
-    "terra-luna":   10155352,    # LUNC (old Terra Classic)
     "jasmycoin":    101917,
     "shiba-inu":    100664146,
     "bonk":         101080117,
@@ -48,7 +47,7 @@ CRYPTO = {
 CRYPTO_LABELS = {
     "bitcoin": "Bitcoin", "cosmos": "Cosmos", "ethereum": "Ethereum",
     "decentraland": "MANA", "pepe": "Pepe", "dogecoin": "Dogecoin",
-    "terra-luna": "LUNC", "jasmycoin": "JasmyCoin", "shiba-inu": "Shiba Inu",
+    "jasmycoin": "JasmyCoin", "shiba-inu": "Shiba Inu",
     "bonk": "BONK", "official-trump": "TRUMP",
 }
 
