@@ -55,6 +55,7 @@ CRYPTO_LABELS = {
 # Metals — troy ounces held
 GOLD_OZ   = 100 / 31.1035          # one 100 g bar → troy oz
 SILVER_OZ = 10                     # 10 × 1 oz bars = 10 oz
+COPPER_OZ = 1000 / 31.1035         # one 1 kg bar → troy oz
 
 # Stocks/ETF — Yahoo Finance symbols
 STOCKS = {
@@ -125,24 +126,22 @@ def get_crypto():
 
 
 def get_metals(fx):
-    """Gold & silver spot (USD/oz) via free feed; fallback to fixed USD/oz."""
-    spot = {"gold": 2650.0, "silver": 31.0}  # fallback USD/oz
-    try:
-        r = requests.get(
-            "https://api.gold-api.com/price/XAU",
-            headers=HEADERS, timeout=TIMEOUT,
-        )
-        if r.ok and r.json().get("price"):
-            spot["gold"] = r.json()["price"]
-        r = requests.get(
-            "https://api.gold-api.com/price/XAG",
-            headers=HEADERS, timeout=TIMEOUT,
-        )
-        if r.ok and r.json().get("price"):
-            spot["silver"] = r.json()["price"]
-        print(f"Metals: gold=${spot['gold']:.2f}/oz  silver=${spot['silver']:.2f}/oz")
-    except Exception as exc:
-        print(f"Metals error (using fallback): {exc}")
+    """Gold/silver/copper spot (USD/oz) via free feed; fallback to fixed USD/oz."""
+    # fallbacks (USD per troy oz): copper ≈ $9,650/tonne ≈ $0.30/oz
+    spot = {"gold": 2650.0, "silver": 31.0, "copper": 0.30}
+    for key, sym in (("gold", "XAU"), ("silver", "XAG"), ("copper", "XCU")):
+        try:
+            r = requests.get(
+                f"https://api.gold-api.com/price/{sym}",
+                headers=HEADERS, timeout=TIMEOUT,
+            )
+            if r.ok and r.json().get("price"):
+                spot[key] = r.json()["price"]
+            elif key == "copper":
+                print(f"  copper (XCU) not available from feed — using fallback ${spot['copper']}/oz")
+        except Exception as exc:
+            print(f"  {key} fetch error (using fallback): {exc}")
+    print(f"Metals: gold=${spot['gold']:.2f}/oz  silver=${spot['silver']:.2f}/oz  copper=${spot['copper']:.4f}/oz")
 
     usd = fx["USD"]
     return [
@@ -157,6 +156,12 @@ def get_metals(fx):
             "amount": round(SILVER_OZ, 2),
             "unit_pln": spot["silver"] * usd,
             "value_pln": spot["silver"] * usd * SILVER_OZ,
+        },
+        {
+            "label": "Miedź (sztabka 1 kg)",
+            "amount": round(COPPER_OZ, 2),
+            "unit_pln": spot["copper"] * usd,
+            "value_pln": spot["copper"] * usd * COPPER_OZ,
         },
     ]
 
