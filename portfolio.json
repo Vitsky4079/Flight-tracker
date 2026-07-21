@@ -1,6 +1,6 @@
 {
-  "last_checked": "2026-07-21T22:58:49.396104+00:00",
-  "total_pln": 1063039.8321233676,
+  "last_checked": "2026-07-21T23:56:43.445829+00:00",
+  "total_pln": 1063091.446970709,
   "groups": [
     {
       "name": "Kryptowaluty",
@@ -9,75 +9,75 @@
         {
           "label": "Bitcoin",
           "amount": 0.04281247,
-          "unit_pln": 251536,
-          "value_pln": 10768.87745392,
-          "change_24h": 1.791223607531475
+          "unit_pln": 252440,
+          "value_pln": 10807.5799268,
+          "change_24h": 2.003198178111348
         },
         {
           "label": "Cosmos",
           "amount": 29.2935,
           "unit_pln": 5.63,
           "value_pln": 164.922405,
-          "change_24h": -0.707130092173471
+          "change_24h": -0.700615854052674
         },
         {
           "label": "Ethereum",
           "amount": 0.01175,
-          "unit_pln": 7284.9,
-          "value_pln": 85.59757499999999,
-          "change_24h": 1.3070399780455009
+          "unit_pln": 7316.99,
+          "value_pln": 85.9746325,
+          "change_24h": 1.3090634516141286
         },
         {
           "label": "MANA",
           "amount": 5300,
-          "unit_pln": 0.265419,
-          "value_pln": 1406.7207,
-          "change_24h": 1.4237510148832988
+          "unit_pln": 0.265752,
+          "value_pln": 1408.4856,
+          "change_24h": 1.4041139611463889
         },
         {
           "label": "Pepe",
           "amount": 526749331,
-          "unit_pln": 1.09e-05,
-          "value_pln": 5741.567707900001,
-          "change_24h": -0.7362154402723738
+          "unit_pln": 1.091e-05,
+          "value_pln": 5746.83520121,
+          "change_24h": -1.5544799349976937
         },
         {
           "label": "Dogecoin",
           "amount": 10032,
-          "unit_pln": 0.277325,
-          "value_pln": 2782.1243999999997,
-          "change_24h": 1.8355440153794687
+          "unit_pln": 0.278056,
+          "value_pln": 2789.457792,
+          "change_24h": 1.559964718251133
         },
         {
           "label": "JasmyCoin",
           "amount": 101917,
-          "unit_pln": 0.01739769,
-          "value_pln": 1773.12037173,
-          "change_24h": 0.2207706102643058
+          "unit_pln": 0.01738181,
+          "value_pln": 1771.50192977,
+          "change_24h": -0.16337130231897123
         },
         {
           "label": "Shiba Inu",
           "amount": 100664146,
-          "unit_pln": 1.619e-05,
-          "value_pln": 1629.75252374,
-          "change_24h": 0.9907901309730658
+          "unit_pln": 1.617e-05,
+          "value_pln": 1627.7392408199998,
+          "change_24h": 0.34438675057895435
         },
         {
           "label": "BONK",
           "amount": 101080117,
           "unit_pln": 1.136e-05,
           "value_pln": 1148.2701291199999,
-          "change_24h": -5.165425128195037
+          "change_24h": -6.129731430119819
         },
         {
           "label": "TRUMP",
           "amount": 12,
-          "unit_pln": 6.05,
-          "value_pln": 72.6,
-          "change_24h": 0.4420297598637747
+          "unit_pln": 6.03,
+          "value_pln": 72.36,
+          "change_24h": 0.03917910067110161
         }
       ],
-      "total_pln": 25573.55326641
+      "total_pln": 25623.126857219995
     },
     {
       "name": "Metale",
@@ -86,14 +86,14 @@
         {
           "label": "Złoto (sztabka 100 g)",
           "amount": 3.2151,
-          "unit_pln": 15481.301862246832,
-          "value_pln": 49773.50414662926
+          "unit_pln": 15480.922214215276,
+          "value_pln": 49772.28355077491
         },
         {
           "label": "Srebro (10 × 1 oz)",
           "amount": 10,
-          "unit_pln": 223.41272472123185,
-          "value_pln": 2234.1272472123187
+          "unit_pln": 223.73890995979667,
+          "value_pln": 2237.389099597967
         },
         {
           "label": "Miedź (sztabka 1 kg)",
@@ -102,7 +102,7 @@
           "value_pln": 36.582025245570215
         }
       ],
-      "total_pln": 52044.213419087144
+      "total_pln": 52046.254675618446
     },
     {
       "name": "Akcje / ETF",
