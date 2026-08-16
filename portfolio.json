@@ -1,6 +1,6 @@
 {
-  "last_checked": "2026-08-16T07:52:38.638429+00:00",
-  "total_pln": 1042907.1442910096,
+  "last_checked": "2026-08-16T08:19:49.332992+00:00",
+  "total_pln": 1063598.32696044,
   "groups": [
     {
       "name": "Kryptowaluty",
@@ -9,75 +9,75 @@
         {
           "label": "Bitcoin",
           "amount": 0.04281247,
-          "unit_pln": 234603,
-          "value_pln": 10043.93389941,
-          "change_24h": -0.01549283349775462
+          "unit_pln": 234616,
+          "value_pln": 10044.49046152,
+          "change_24h": 0.009751251957129453
         },
         {
           "label": "Cosmos",
           "amount": 29.2935,
-          "unit_pln": 5.55,
-          "value_pln": 162.578925,
-          "change_24h": 0.39228595698747654
+          "unit_pln": 5.54,
+          "value_pln": 162.28599,
+          "change_24h": 0.6674159008473971
         },
         {
           "label": "Ethereum",
           "amount": 0.01175,
-          "unit_pln": 6998.08,
-          "value_pln": 82.22744,
-          "change_24h": 0.0340800444765483
+          "unit_pln": 6996.74,
+          "value_pln": 82.21169499999999,
+          "change_24h": -0.00923439989967223
         },
         {
           "label": "MANA",
           "amount": 5300,
-          "unit_pln": 0.237277,
-          "value_pln": 1257.5681,
-          "change_24h": -1.0902035942044561
+          "unit_pln": 0.236923,
+          "value_pln": 1255.6919,
+          "change_24h": -1.3378276660020454
         },
         {
           "label": "Pepe",
           "amount": 526749331,
-          "unit_pln": 9.69e-06,
-          "value_pln": 5104.20101739,
-          "change_24h": -1.4826346876254082
+          "unit_pln": 9.7e-06,
+          "value_pln": 5109.4685107000005,
+          "change_24h": -1.4040905685628011
         },
         {
           "label": "Dogecoin",
           "amount": 10032,
-          "unit_pln": 0.259775,
-          "value_pln": 2606.0627999999997,
-          "change_24h": -0.3381883474953943
+          "unit_pln": 0.25998,
+          "value_pln": 2608.1193599999997,
+          "change_24h": -0.23936759767304336
         },
         {
           "label": "JasmyCoin",
           "amount": 101917,
-          "unit_pln": 0.01456102,
-          "value_pln": 1484.01547534,
-          "change_24h": -1.3598814057706328
+          "unit_pln": 0.014609,
+          "value_pln": 1488.905453,
+          "change_24h": -1.4194217300356697
         },
         {
           "label": "Shiba Inu",
           "amount": 100664146,
-          "unit_pln": 1.677e-05,
-          "value_pln": 1688.13772842,
-          "change_24h": -1.4820205566142488
+          "unit_pln": 1.674e-05,
+          "value_pln": 1685.1178040399998,
+          "change_24h": -1.615389260082965
         },
         {
           "label": "BONK",
           "amount": 101080117,
-          "unit_pln": 8.69e-06,
-          "value_pln": 878.38621673,
-          "change_24h": -0.8505667238123272
+          "unit_pln": 8.72e-06,
+          "value_pln": 881.41862024,
+          "change_24h": -0.4765941219324898
         },
         {
           "label": "TRUMP",
           "amount": 12,
-          "unit_pln": 5.2,
-          "value_pln": 62.400000000000006,
-          "change_24h": -0.8337953723717784
+          "unit_pln": 5.21,
+          "value_pln": 62.519999999999996,
+          "change_24h": -0.6605670705462671
         }
       ],
-      "total_pln": 23369.51160229
+      "total_pln": 23380.229794500003
     },
     {
       "name": "Metale",
@@ -86,8 +86,8 @@
         {
           "label": "Złoto (sztabka 100 g)",
           "amount": 3.2151,
-          "unit_pln": 9866.706381711223,
-          "value_pln": 31722.173973061625
+          "unit_pln": 16299.0546503835,
+          "value_pln": 52402.63845028212
         },
         {
           "label": "Srebro (10 × 1 oz)",
@@ -102,7 +102,7 @@
           "value_pln": 35.911895063843346
         }
       ],
-      "total_pln": 34171.78022362476
+      "total_pln": 54852.24470084525
     },
     {
       "name": "Akcje / ETF",
