@@ -1,6 +1,6 @@
 {
-  "last_checked": "2026-09-12T19:57:33.808156+00:00",
-  "total_pln": 1068604.3772027295,
+  "last_checked": "2026-09-12T21:56:32.379395+00:00",
+  "total_pln": 1068630.3985493295,
   "groups": [
     {
       "name": "Kryptowaluty",
@@ -9,75 +9,75 @@
         {
           "label": "Bitcoin",
           "amount": 0.04281247,
-          "unit_pln": 287365,
-          "value_pln": 12302.80544155,
-          "change_24h": -0.3139004280215332
+          "unit_pln": 287936,
+          "value_pln": 12327.25136192,
+          "change_24h": 0.10388711468259486
         },
         {
           "label": "Cosmos",
           "amount": 29.2935,
-          "unit_pln": 5.99,
-          "value_pln": 175.46806500000002,
-          "change_24h": -2.5319479513442613
+          "unit_pln": 6.0,
+          "value_pln": 175.76100000000002,
+          "change_24h": -1.4379321488738874
         },
         {
           "label": "Ethereum",
           "amount": 0.01175,
-          "unit_pln": 9380.64,
-          "value_pln": 110.22251999999999,
-          "change_24h": -0.9296347530756847
+          "unit_pln": 9404.6,
+          "value_pln": 110.50405,
+          "change_24h": 0.18911448512995815
         },
         {
           "label": "MANA",
           "amount": 5300,
-          "unit_pln": 0.273319,
-          "value_pln": 1448.5907,
-          "change_24h": 2.1003229165334267
+          "unit_pln": 0.273369,
+          "value_pln": 1448.8556999999998,
+          "change_24h": 2.664905383454971
         },
         {
           "label": "Pepe",
           "amount": 526749331,
           "unit_pln": 1.272e-05,
           "value_pln": 6700.25149032,
-          "change_24h": 3.676905632326054
+          "change_24h": 4.3058831503662764
         },
         {
           "label": "Dogecoin",
           "amount": 10032,
-          "unit_pln": 0.315825,
-          "value_pln": 3168.3564,
-          "change_24h": 0.2796342593215385
+          "unit_pln": 0.31569,
+          "value_pln": 3167.00208,
+          "change_24h": 0.865746587572153
         },
         {
           "label": "JasmyCoin",
           "amount": 101917,
-          "unit_pln": 0.01485575,
-          "value_pln": 1514.0534727499999,
-          "change_24h": -0.0513037502460774
+          "unit_pln": 0.01486756,
+          "value_pln": 1515.25711252,
+          "change_24h": -0.9870380476364536
         },
         {
           "label": "Shiba Inu",
           "amount": 100664146,
-          "unit_pln": 1.97e-05,
-          "value_pln": 1983.0836762000001,
-          "change_24h": 1.9944432986663394
+          "unit_pln": 1.971e-05,
+          "value_pln": 1984.09031766,
+          "change_24h": 2.8998664466859467
         },
         {
           "label": "BONK",
           "amount": 101080117,
           "unit_pln": 1.039e-05,
           "value_pln": 1050.2224156300001,
-          "change_24h": 2.1341245867011405
+          "change_24h": 2.168747358450008
         },
         {
           "label": "TRUMP",
           "amount": 12,
-          "unit_pln": 7.43,
-          "value_pln": 89.16,
-          "change_24h": 0.8655851739444972
+          "unit_pln": 7.42,
+          "value_pln": 89.03999999999999,
+          "change_24h": 1.6777390178047111
         }
       ],
-      "total_pln": 28542.21418145
+      "total_pln": 28568.235528050005
     },
     {
       "name": "Metale",
