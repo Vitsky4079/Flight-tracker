@@ -1,6 +1,6 @@
 {
-  "last_checked": "2026-09-29T12:06:02.387480+00:00",
-  "total_pln": 1039463.6737343585,
+  "last_checked": "2026-09-29T18:10:23.575567+00:00",
+  "total_pln": 1039418.706456102,
   "groups": [
     {
       "name": "Kryptowaluty",
@@ -15,23 +15,23 @@
         {
           "label": "Złoto (sztabka 100 g)",
           "amount": 3.2151,
-          "unit_pln": 15982.935923748031,
-          "value_pln": 51386.29390180536
+          "unit_pln": 15981.855278333076,
+          "value_pln": 51382.81954871019
         },
         {
           "label": "Srebro (10 × 1 oz)",
           "amount": 10,
-          "unit_pln": 235.0858987662862,
-          "value_pln": 2350.858987662862
+          "unit_pln": 235.17222820236813,
+          "value_pln": 2351.722282023681
         },
         {
           "label": "Miedź (sztabka 1 kg)",
           "amount": 32.15,
-          "unit_pln": 1.1530035743110805,
-          "value_pln": 37.06989806006013
+          "unit_pln": 1.1533138551437796,
+          "value_pln": 37.07987381303646
         }
       ],
-      "total_pln": 53774.22278752828
+      "total_pln": 53771.62170454691
     },
     {
       "name": "Akcje / ETF",
@@ -40,26 +40,26 @@
         {
           "label": "Vanguard FTSE All-World",
           "amount": 4.83102181,
-          "unit_pln": 743.7467203078538,
-          "value_pln": 3593.0566269232118,
-          "change_24h": -0.24633431085043256
+          "unit_pln": 739.4796577614807,
+          "value_pln": 3572.442354697049,
+          "change_24h": -0.6451612903225773
         },
         {
           "label": "GameStop",
           "amount": 10.468814,
-          "unit_pln": 92.08655213497829,
-          "value_pln": 964.0369862023906,
-          "change_24h": 5.2724077328646715
+          "unit_pln": 90.09303398431491,
+          "value_pln": 943.1672154774718,
+          "change_24h": -2.476071577195183
         },
         {
           "label": "Microsoft",
           "amount": 0.06762903,
-          "unit_pln": 1957.108267035628,
-          "value_pln": 132.3573337046005,
-          "change_24h": 1.5171148900540288
+          "unit_pln": 1944.0642780255264,
+          "value_pln": 131.4751813805167,
+          "change_24h": 1.5441767068273087
         }
       ],
-      "total_pln": 4689.450946830203
+      "total_pln": 4647.084751555038
     },
     {
       "name": "Nieruchomości i pojazdy",
