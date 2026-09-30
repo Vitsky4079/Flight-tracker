@@ -1,6 +1,6 @@
 {
-  "last_checked": "2026-09-29T22:27:57.989517+00:00",
-  "total_pln": 1039773.9024084228,
+  "last_checked": "2026-09-30T01:25:00.881576+00:00",
+  "total_pln": 1039602.7018494194,
   "groups": [
     {
       "name": "Kryptowaluty",
@@ -15,14 +15,14 @@
         {
           "label": "Złoto (sztabka 100 g)",
           "amount": 3.2151,
-          "unit_pln": 16081.424334922342,
-          "value_pln": 51702.941260380154
+          "unit_pln": 16034.906966015684,
+          "value_pln": 51553.384558058366
         },
         {
           "label": "Srebro (10 × 1 oz)",
           "amount": 10,
-          "unit_pln": 237.28663693679837,
-          "value_pln": 2372.8663693679837
+          "unit_pln": 235.12225126864521,
+          "value_pln": 2351.2225126864523
         },
         {
           "label": "Miedź (sztabka 1 kg)",
@@ -31,7 +31,7 @@
           "value_pln": 37.07987381303646
         }
       ],
-      "total_pln": 54112.88750356118
+      "total_pln": 53941.686944557856
     },
     {
       "name": "Akcje / ETF",
