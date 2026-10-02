@@ -59,8 +59,7 @@ COPPER_OZ = 1000 / 31.1035         # one 1 kg bar → troy oz
 # Stocks/ETF — Yahoo Finance symbols
 STOCKS = {
     "VWCE.DE": {"label": "Vanguard FTSE All-World", "shares": 4.83102181},
-    "GME":     {"label": "GameStop",                "shares": 10.468814},
-    "MSFT":    {"label": "Microsoft",               "shares": 0.06762903},
+    "TTWO":    {"label": "Take-Two Interactive",    "shares": 2.69891918},
 }
 
 # Fixed assets (PLN baseline) — trended by market where possible
