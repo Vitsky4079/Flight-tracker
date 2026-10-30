@@ -1,5 +1,5 @@
 {
-  "last_checked": "2026-10-30T14:43:38.354684+00:00",
+  "last_checked": "2026-10-30T19:47:55.133589+00:00",
   "threshold": 500,
   "roundtrip_threshold": 1000,
   "routes": [
@@ -27,14 +27,14 @@
     "name": "GDN ↔ Marsa Alam",
     "url": "https://r.pl/bilety-czarterowe/egipt/marsa-alam?skad=GDN&oneWay=false&wiek=1996-06-14&data=2026-10-31",
     "threshold": 1000,
-    "cheapest_total": 2399,
+    "cheapest_total": 1299,
     "out": {
       "date": "2026-11-07",
-      "price": 960
+      "price": 520
     },
     "ret": {
       "date": "2026-11-15",
-      "price": 1439
+      "price": 779
     },
     "alert": false
   }
