@@ -1,5 +1,5 @@
 {
-  "last_checked": "2026-11-18T19:27:55.000049+00:00",
+  "last_checked": "2026-11-19T01:20:47.897896+00:00",
   "threshold": 500,
   "roundtrip_threshold": 1000,
   "routes": [
@@ -14,12 +14,8 @@
       "name": "Marsa Alam → GDN",
       "url": "https://r.pl/bilety-czarterowe/polska/gdansk?skad=RMF&oneWay=true&wiek=1996-06-14",
       "cheapest_price": 299,
-      "cheapest_date": "2026-11-22",
+      "cheapest_date": "2026-11-29",
       "alerts": [
-        {
-          "date": "2026-11-22",
-          "price": 299
-        },
         {
           "date": "2026-11-29",
           "price": 299
