@@ -1,12 +1,83 @@
 {
-  "last_checked": "2026-11-26T11:45:20.255914+00:00",
-  "total_pln": 1035733.0580451052,
+  "last_checked": "2026-11-26T20:46:04.778202+00:00",
+  "total_pln": 1061360.719622556,
   "groups": [
     {
       "name": "Kryptowaluty",
       "icon": "₿",
-      "items": [],
-      "total_pln": 0
+      "items": [
+        {
+          "label": "Bitcoin",
+          "amount": 0.04281247,
+          "unit_pln": 248002,
+          "value_pln": 10617.57818494,
+          "change_24h": 1.6257866220713777
+        },
+        {
+          "label": "Cosmos",
+          "amount": 29.2935,
+          "unit_pln": 4.99,
+          "value_pln": 146.174565,
+          "change_24h": -1.3842480701971034
+        },
+        {
+          "label": "Ethereum",
+          "amount": 0.01175,
+          "unit_pln": 6956.01,
+          "value_pln": 81.7331175,
+          "change_24h": 1.5579944116629325
+        },
+        {
+          "label": "MANA",
+          "amount": 5300,
+          "unit_pln": 0.236145,
+          "value_pln": 1251.5684999999999,
+          "change_24h": 3.4262530711982
+        },
+        {
+          "label": "Pepe",
+          "amount": 526749331,
+          "unit_pln": 1.434e-05,
+          "value_pln": 7553.58540654,
+          "change_24h": 1.4859911668821133
+        },
+        {
+          "label": "Dogecoin",
+          "amount": 10032,
+          "unit_pln": 0.232527,
+          "value_pln": 2332.710864,
+          "change_24h": 2.6165875540518253
+        },
+        {
+          "label": "JasmyCoin",
+          "amount": 101917,
+          "unit_pln": 0.01291322,
+          "value_pln": 1316.07664274,
+          "change_24h": 1.7571432696845686
+        },
+        {
+          "label": "Shiba Inu",
+          "amount": 100664146,
+          "unit_pln": 1.489e-05,
+          "value_pln": 1498.88913394,
+          "change_24h": 2.521000819093218
+        },
+        {
+          "label": "BONK",
+          "amount": 101080117,
+          "unit_pln": 8.96e-06,
+          "value_pln": 905.6778483200001,
+          "change_24h": 3.6710189282760903
+        },
+        {
+          "label": "TRUMP",
+          "amount": 12,
+          "unit_pln": 3.58,
+          "value_pln": 42.96,
+          "change_24h": 2.081410018619617
+        }
+      ],
+      "total_pln": 25746.954262979998
     },
     {
       "name": "Metale",
@@ -15,23 +86,23 @@
         {
           "label": "Złoto (sztabka 100 g)",
           "amount": 3.2151,
-          "unit_pln": 14604.63762291052,
-          "value_pln": 46954.96527050178
+          "unit_pln": 14569.59574702782,
+          "value_pln": 46842.303107456784
         },
         {
           "label": "Srebro (10 × 1 oz)",
           "amount": 10,
-          "unit_pln": 168.95279826286463,
-          "value_pln": 1689.5279826286464
+          "unit_pln": 168.46427666789228,
+          "value_pln": 1684.6427666789227
         },
         {
           "label": "Miedź (sztabka 1 kg)",
           "amount": 32.15,
-          "unit_pln": 1.2291052114060963,
-          "value_pln": 39.516620682755836
+          "unit_pln": 1.2256403971074885,
+          "value_pln": 39.40522439942413
         }
       ],
-      "total_pln": 48684.009873813186
+      "total_pln": 48566.35109853513
     },
     {
       "name": "Akcje / ETF",
@@ -40,19 +111,19 @@
         {
           "label": "Vanguard FTSE All-World",
           "amount": 4.83102181,
-          "unit_pln": 731.7772501232024,
-          "value_pln": 3535.231855407016,
-          "change_24h": -0.9219944195074671
+          "unit_pln": 732.90588710039,
+          "value_pln": 3540.684325259382,
+          "change_24h": -0.8492053863884541
         },
         {
           "label": "Take-Two Interactive",
           "amount": 2.69891918,
-          "unit_pln": 931.4159292035398,
-          "value_pln": 2513.8163158849557,
+          "unit_pln": 928.7902929280549,
+          "value_pln": 2506.7299357813454,
           "change_24h": 4.953603250080786
         }
       ],
-      "total_pln": 6049.048171291972
+      "total_pln": 6047.414261040727
     },
     {
       "name": "Nieruchomości i pojazdy",
